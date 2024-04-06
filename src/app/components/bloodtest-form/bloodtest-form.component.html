@@ -1,0 +1,67 @@
+<form action="" #bloodForm="ngForm">
+  <h3>Analisi del Sangue</h3>
+  <div class="split-2">
+    <div class="contain-input">
+      <label for="redBlood">Globuli Rossi</label>
+      <p-inputNumber
+        [(ngModel)]="model.redBloodCell"
+        mode="decimal"
+        id="redBlood"
+        name="redBlood"
+        [required]="true"
+        #redBloodInput="ngModel"
+      >
+      </p-inputNumber>
+      @if (redBloodInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+    <div class="contain-input input-split">
+        <label for="whiteBlood">Globuli Bianchi</label>
+        <p-inputNumber
+          [(ngModel)]="model.whiteBloodCell"
+          mode="decimal"
+          id="whiteBlood"
+          name="whiteBlood"
+          [required]="true"
+          #whiteBloodInput="ngModel"
+        >
+        </p-inputNumber>
+        @if (whiteBloodInput.hasError('required')) {
+        <p class="req"><strong>Obbligatorio</strong></p>
+        }
+    </div>
+  </div>
+  <div class="split-2">
+    <div class="contain-input">
+      <label for="platelets">Piastrine</label>
+      <p-inputNumber
+        [(ngModel)]="model.platelets"
+        mode="decimal"
+        id="platelets"
+        name="platelets"
+        [required]="true"
+        #plateletsInput="ngModel"
+      >
+      </p-inputNumber>
+      @if (plateletsInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+    <div class="contain-input input-split">
+        <label for="hemoglobin">Emoglobina</label>
+        <p-inputNumber
+          [(ngModel)]="model.hemoglobin"
+          mode="decimal"
+          id="hemoglobin"
+          name="hemoglobin"
+          [required]="true"
+          #hemoglobinInput="ngModel"
+        >
+        </p-inputNumber>
+        @if (hemoglobinInput.hasError('required')) {
+        <p class="req"><strong>Obbligatorio</strong></p>
+        }
+    </div>
+  </div>
+</form>

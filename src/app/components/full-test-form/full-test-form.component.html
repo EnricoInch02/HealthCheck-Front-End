@@ -1,0 +1,26 @@
+@if (mode == "insert") {
+  <app-test-form (typeChange)="onTypeChange($event)"></app-test-form>
+}
+@if(type=="BLOODTEST" || mode== "update" && testUpdate.type == "BLOODTEST") {
+<app-bloodtest-form></app-bloodtest-form>
+}@else if(type=="URINETEST" || mode== "update" && testUpdate.type == "URINETEST"){
+<app-urinetest-form></app-urinetest-form>
+}
+
+@if (errorMessage) {
+<p class="err">{{ errorMessage }}</p>
+} @if (mode == "insert") {
+<p-button
+  label="Inserisci"
+  icon="pi pi-check"
+  iconPos="right"
+  (click)="submitInsertForm()"
+></p-button>
+}@else{
+<p-button
+  label="Modifica"
+  icon="pi pi-check"
+  iconPos="right"
+  (click)="submitUpdateForm()"
+></p-button>
+}

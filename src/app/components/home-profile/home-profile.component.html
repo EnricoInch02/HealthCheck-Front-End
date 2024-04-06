@@ -1,0 +1,310 @@
+<div class="wrap">
+  <h2>Informazioni Personali</h2>
+
+  <div class="contain">
+    <div class="image">
+      <img
+        src="http://localhost:8080/user/viewProPic?id={{ patient!.id }}"
+        alt="patients personal photo"
+      />
+    </div>
+    <div class="contain-text">
+      <div class="text">
+        <p>{{ registrypatient.name }} {{ registrypatient.surname }}</p>
+        <div class="description">
+          All'interno di questa schermata troverete tutte le informazioni che vi
+          riguardano oltre alla possibilità di modifica e cancellazione del
+          profilo!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p-tabView>
+      <p-tabPanel header="Profilo">
+        <p>
+          <span>Nome:</span> {{ registrypatient.name }}
+          {{ registrypatient.surname }}
+        </p>
+        <p><span>Email:</span> {{ patient!.email }}</p>
+        <p><span>Codice Fiscale:</span> {{ registrypatient.cf }}</p>
+        <p><span>Genere:</span> {{ registrypatient.gender == "0" ? 'MASCHIO' : 'FEMMINA'}}</p>
+        <p><span>Data di Nascita:</span> {{ registrypatient.birthDate }}</p>
+        <p><span>Luogo di Nascita:</span> {{ registrypatient.birthPlace }}</p>
+        <p><span>Città:</span> {{ registrypatient.city }}</p>
+        <p><span>Indirizzo:</span> {{ registrypatient.address }}</p>
+        <p><span>Nazionalità:</span> {{ registrypatient.nationality }}</p>
+        <p><span>Gruppo Sanguigno:</span> {{ registrypatient.bg }}</p>
+        @if (patient!.usertype != "SUPER") {
+        <div class="btn">
+          <p-button severity="danger" (click)="delete()"
+            >Elimina Profilo</p-button
+          >
+        </div>
+        }
+      </p-tabPanel>
+      <p-tabPanel header="Modifica Credenziali">
+        <div class="contain-form">
+          <form #userForm="ngForm">
+            <h3>Credenziali</h3>
+            <div class="foto">
+              <p-fileUpload
+                mode="basic"
+                name="image"
+                url="https://www.primefaces.org/cdn/api/upload.php"
+                accept="image/*"
+                [auto]="true"
+                chooseLabel="Foto"
+                (onUpload)="onUpload($event)"
+              ></p-fileUpload>
+            </div>
+            <div class="contain-input">
+              <label for="email">Email</label>
+              <input
+                pInputText
+                id="email"
+                name="email"
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
+                [(ngModel)]="modelUser.email"
+                [required]="true"
+                #emailInput="ngModel"
+              />
+              @if (emailInput.hasError('pattern')) {
+              <p class="err">Email non valida</p>
+              }@else if (emailInput.hasError('required')) {
+              <p class="req"><strong>Obbligatorio</strong></p>
+              }
+            </div>
+            <div class="contain-input">
+              <label for="password">Password</label>
+              <p-password
+                name="password"
+                id="password"
+                [(ngModel)]="modelUser.password"
+                [required]="true"
+                #passwordInput="ngModel"
+                [toggleMask]="true"
+                pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{8,}$"
+              ></p-password>
+              @if (passwordInput.hasError('pattern')) {
+              <p class="err">
+                Minimo 8 caratteri, almeno un numero, una lettera maiuscola e un
+                carattere speciale
+              </p>
+              }@else if (passwordInput.hasError('required')) {
+              <p class="req"><strong>Obbligatorio</strong></p>
+              }
+            </div>
+            @if (errorMessage) {
+            <p class="err">{{ errorMessage }}</p>
+            }
+            <div class="btn">
+              <p-button
+                label="Modifica"
+                icon="pi pi-check"
+                iconPos="right"
+                (click)="updateUser()"
+                class="btn"
+                [disabled]="!userForm.valid"
+              ></p-button>
+              
+            </div>
+          </form>
+        </div>
+        <p-messages></p-messages>
+      </p-tabPanel>
+      <p-tabPanel header="Modifica Anagrafica">
+        <div class="contain-form">
+          <form action="" #registryForm="ngForm">
+            <h3>Anagrafica</h3>
+            <div class="split-2">
+              <div class="contain-input">
+                <label for="name">Nome</label>
+                <input
+                  pInputText
+                  id="name"
+                  name="name"
+                  [(ngModel)]="modelRegistry.name"
+                  [required]="true"
+                  #nameInput="ngModel"
+                />
+                @if (nameInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }
+              </div>
+              <div class="contain-input">
+                <label for="surname">Cognome</label>
+                <input
+                  pInputText
+                  name="surname"
+                  id="surname"
+                  [(ngModel)]="modelRegistry.surname"
+                  [required]="true"
+                  #surnameInput="ngModel"
+                />
+                @if (surnameInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }
+              </div>
+            </div>
+          
+            <div class="split-3">
+              <div class="contain-input">
+                <label for="birthDate">Data di Nascita</label>
+                <p-calendar
+                  [(ngModel)]="modelRegistry.birthDate"
+                  (ngModelChange)="handleDateSelection($event)"
+                  [iconDisplay]="'input'"
+                  [showIcon]="true"
+                  id="birthDate"
+                  name="birthDate"
+                  [required]="true"
+                  #birthDateInput="ngModel"
+                ></p-calendar>
+                @if (birthDateInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }
+              </div>
+              <div class="contain-input">
+                <label for="birthPlace">Luogo di Nascita</label>
+                <input
+                  pInputText
+                  name="birthPlace"
+                  id="birthPlace"
+                  [(ngModel)]="modelRegistry.birthPlace"
+                  [required]="true"
+                  #birthPlaceInput="ngModel"
+                />
+                @if (birthPlaceInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }
+              </div>
+              <div class="contain-input">
+                <label for="gender">Genere</label>
+                <p-dropdown
+                  [options]="genders"
+                  [(ngModel)]="modelRegistry.gender"
+                  optionValue="value"
+                  optionLabel="viewValue"
+                  name="gender"
+                  id="gender"
+                  [showClear]="true"
+                  placeholder="Scegli.."
+                  [required]="true"
+                  #genderInput="ngModel"
+                  class="select"
+                ></p-dropdown>
+                @if (genderInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }
+              </div>
+            </div>
+          
+            <div class="split-3">
+              <div class="contain-input">
+                <label for="city">Città</label>
+                <input
+                  pInputText
+                  name="city"
+                  id="city"
+                  [(ngModel)]="modelRegistry.city"
+                  [required]="true"
+                  #cityInput="ngModel"
+                />
+                @if (cityInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }
+              </div>
+              <div class="contain-input">
+                <label for="address">Indirizzo</label>
+                <input
+                  pInputText
+                  name="address"
+                  id="address"
+                  [(ngModel)]="modelRegistry.address"
+                  [required]="true"
+                  #addressInput="ngModel"
+                />
+                @if (addressInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }
+              </div>
+              <div class="contain-input">
+                <label for="nationality">Nazionalità</label>
+                <p-dropdown
+                [options]="nationalities"
+                [(ngModel)]="modelRegistry.nationality"
+                optionValue="value"
+                optionLabel="viewValue"
+                name="nationality"
+                id="nationality"
+                [showClear]="true"
+                placeholder="Scegli.."
+                [required]="true"
+                #natinalityInput="ngModel"
+                class="select"
+                ></p-dropdown>
+                @if (natinalityInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }
+              </div>
+            </div>
+          
+            <div class="split-2-5">
+              <div class="contain-input">
+                <label for="cf">Codice Fiscale</label>
+                <input
+                  pInputText
+                  id="cf"
+                  name="cf"
+                  [(ngModel)]="modelRegistry.cf"
+                  [required]="true"
+                  #cfInput="ngModel"
+                  pattern="^.{16}$"
+                />
+                @if (cfInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }@else if (cfInput.hasError('pattern')) {
+                <p class="err">16 caratteri</p>
+                }
+              </div>
+              <div class="contain-input">
+                <label for="bg">Gruppo Sanguigno</label>
+                <p-dropdown
+                  [options]="bloodGroups"
+                  [(ngModel)]="modelRegistry.bg"
+                  optionValue="value"
+                  optionLabel="viewValue"
+                  name="bg"
+                  id="bg"
+                  [showClear]="true"
+                  placeholder="Scegli.."
+                  [required]="true"
+                  #bgInput="ngModel"
+                  class="select"
+                ></p-dropdown>
+                @if (bgInput.hasError('required')) {
+                <p class="req"><strong>Obbligatorio</strong></p>
+                }
+              </div>
+            </div>
+            <div class="btn">
+              <p-button
+                label="Modifica"
+                icon="pi pi-check"
+                iconPos="right"
+                (click)="updateRegistry()"
+                class="btn"
+                [disabled]="!registryForm.valid"
+              ></p-button>
+              
+            </div>
+          </form>
+          
+        </div>
+        <p-messages></p-messages>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

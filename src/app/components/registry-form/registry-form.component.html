@@ -1,0 +1,171 @@
+<form action="" #registryForm="ngForm">
+  <h3>Anagrafica</h3>
+  <div class="split-2">
+    <div class="contain-input">
+      <label for="name">Nome</label>
+      <input
+        pInputText
+        id="name"
+        name="name"
+        [(ngModel)]="model.name"
+        [required]="true"
+        #nameInput="ngModel"
+      />
+      @if (nameInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+    <div class="contain-input input-split">
+      <label for="surname">Cognome</label>
+      <input
+        pInputText
+        name="surname"
+        id="surname"
+        [(ngModel)]="model.surname"
+        [required]="true"
+        #surnameInput="ngModel"
+      />
+      @if (surnameInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+  </div>
+
+  <div class="split-3">
+    <div class="contain-input">
+      <label for="birthDate">Data di Nascita</label>
+      <p-calendar
+        [(ngModel)]="model.birthDate"
+        (ngModelChange)="handleDateSelection($event)"
+        [iconDisplay]="'input'"
+        [showIcon]="true"
+        id="birthDate"
+        name="birthDate"
+        [required]="true"
+        #birthDateInput="ngModel"
+      ></p-calendar>
+      @if (birthDateInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+    <div class="contain-input">
+      <label for="birthPlace">Luogo di Nascita</label>
+      <input
+        pInputText
+        name="birthPlace"
+        id="birthPlace"
+        [(ngModel)]="model.birthPlace"
+        [required]="true"
+        #birthPlaceInput="ngModel"
+      />
+      @if (birthPlaceInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+    <div class="card flex justify-content-center">
+      <label for="gender">Genere</label>
+      <p-dropdown
+        [options]="genders"
+        [(ngModel)]="model.gender"
+        optionValue="value"
+        optionLabel="viewValue"
+        name="gender"
+        id="gender"
+        [showClear]="true"
+        placeholder="Scegli.."
+        [required]="true"
+        #genderInput="ngModel"
+      ></p-dropdown>
+      @if (genderInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+  </div>
+
+  <div class="split-3">
+    <div class="contain-input">
+      <label for="city">Città</label>
+      <input
+        pInputText
+        name="city"
+        id="city"
+        [(ngModel)]="model.city"
+        [required]="true"
+        #cityInput="ngModel"
+      />
+      @if (cityInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+    <div class="contain-input">
+      <label for="address">Indirizzo</label>
+      <input
+        pInputText
+        name="address"
+        id="address"
+        [(ngModel)]="model.address"
+        [required]="true"
+        #addressInput="ngModel"
+      />
+      @if (addressInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+    <div class="card flex justify-content-center">
+      <label for="nationality">Nazionalità</label>
+      <p-dropdown
+      [options]="nationalities"
+      [(ngModel)]="model.nationality"
+      optionValue="value"
+      optionLabel="viewValue"
+      name="nationality"
+      id="nationality"
+      [showClear]="true"
+      placeholder="Scegli.."
+      [required]="true"
+      #natinalityInput="ngModel"
+      ></p-dropdown>
+      @if (natinalityInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+  </div>
+
+  <div class="split-2-5">
+    <div class="contain-input">
+      <label for="cf">Codice Fiscale</label>
+      <input
+        pInputText
+        id="cf"
+        name="cf"
+        [(ngModel)]="model.cf"
+        [required]="true"
+        #cfInput="ngModel"
+        pattern="^.{16}$"
+      />
+      @if (cfInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }@else if (cfInput.hasError('pattern')) {
+      <p class="err">16 caratteri</p>
+      }
+    </div>
+    <div class="card flex justify-content-center">
+      <label for="bg">Gruppo Sanguigno</label>
+      <p-dropdown
+        [options]="bloodGroups"
+        [(ngModel)]="model.bg"
+        optionValue="value"
+        optionLabel="viewValue"
+        name="bg"
+        id="bg"
+        [showClear]="true"
+        placeholder="Scegli.."
+        [required]="true"
+        #bgInput="ngModel"
+      ></p-dropdown>
+      @if (bgInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+  </div>
+</form>

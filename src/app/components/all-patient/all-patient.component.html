@@ -1,0 +1,45 @@
+@if (patientlist.length) {
+<div class="container">
+  @for (patient of patientlist; track $index) {
+  <div class="card" (click)="viewPatient(patient)">
+    <div class="content">
+      <div class="back">
+        <div class="back-content">
+          <img src="http://localhost:8080/user/viewProPic?id={{patient.id}}" alt="">
+          <strong>{{patient.name}} {{patient.surname}}</strong>
+        </div>
+      </div>
+      <div class="front">
+        <div class="img">
+          <img src="http://localhost:8080/user/viewProPic?id={{patient.id}}" alt="">
+        </div>
+        <div class="front-content">
+          <small class="badge"></small>
+          <div class="description">
+            <div class="title">
+              <p class="title">
+                <strong>{{patient.name}} {{patient.surname}}</strong>
+              </p>
+            </div>
+            <p class="card-footer">{{patient.cf}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>
+}@else {
+<app-empty></app-empty>
+}
+<p-dialog
+  [(visible)]="patientDetail"
+  [style]="{ width: '450px' }"
+  header="Dettagli Pazienti"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content"
+    ><app-patient-detail [user]="selectedPatient"></app-patient-detail
+  ></ng-template>
+</p-dialog>

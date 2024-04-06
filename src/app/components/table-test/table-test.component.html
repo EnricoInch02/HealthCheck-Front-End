@@ -1,0 +1,218 @@
+<div class="contain">
+  <div class="card">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <h2>{{ title }}</h2>
+        <button
+          pButton
+          pRipple
+          icon="pi pi-plus"
+          class="p-button-success mr-2"
+          (click)="openNew()"
+          pTooltip="Aggiungi"
+          tooltipPosition="bottom"
+        ></button>
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-search"
+          (click)="isSearch()"
+          pTooltip="Cerca"
+          tooltipPosition="bottom"
+        ></button>
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-refresh"
+          (click)="onHideDialog()"
+          pTooltip="Aggiorna"
+          tooltipPosition="bottom"
+          class="p-button-help"
+        ></button>
+      </ng-template>
+    </p-toolbar>
+    @if (testList.length) {
+    <p-table
+      #dt
+      [value]="testList"
+      [rows]="10"
+      [paginator]="true"
+      [tableStyle]="{ width: '80vw' }"
+      [rowHover]="true"
+      dataKey="id"
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="header" style="width: 80rem">
+        <tr>
+          @if (userSession?.usertype != "ADMIN") {
+          <th>Dottore</th>
+          } @if (userSession?.usertype != "USER") {
+          <th>Paziente</th>
+          }
+
+          <th>Stato</th>
+          <th>Data</th>
+          @if (typeList == "all") {
+          <th>Analisi</th>
+          }
+          <th></th>
+        </tr>
+        @if (search) {
+        <tr>
+          @if (userSession?.usertype != "ADMIN") {
+          <th style="width: 200px">
+            <p-dropdown
+              [options]="allDoctor"
+              [(ngModel)]="searchDoctor"
+              (ngModelChange)="searchByDoctor(searchDoctor)"
+              optionValue="id"
+              optionLabel="surname"
+              [showClear]="true"
+              placeholder="Dottore"
+              [editable]="true"
+            ></p-dropdown>
+          </th>
+          } @if (userSession?.usertype != "USER") {
+          <th style="width: 200px">
+            <p-dropdown
+              [options]="allUser"
+              [(ngModel)]="searchPatient"
+              (ngModelChange)="searchByPatient(searchPatient)"
+              optionValue="id"
+              optionLabel="cf"
+              [showClear]="true"
+              placeholder="Paziente"
+              [editable]="true"
+            ></p-dropdown>
+          </th>
+          }
+
+          <th style="width: 200px">
+            <p-dropdown
+              [options]="status"
+              [(ngModel)]="selectedStatus"
+              (ngModelChange)="searchByChecked(selectedStatus)"
+              optionLabel="name"
+              optionValue="code"
+              [showClear]="true"
+              placeholder="Stato"
+            ></p-dropdown>
+          </th>
+          <th style="width: 200px; cursor: pointer" (click)="toggleSort()">
+            Ordina <p-sortIcon></p-sortIcon>
+          </th>
+        </tr>
+        }
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          @if (userSession?.usertype != "ADMIN") {
+          <td>{{ item.doctor | titlecase }}</td>
+          } @if (userSession?.usertype != "USER") {
+          <td>{{ item.patient | uppercase }}</td>
+          }
+          <td>
+            <p-tag
+              [value]="item.isChecked ? 'Validato' : 'Da Validare'"
+              [severity]="getSeverity(item.isChecked)"
+            ></p-tag>
+          </td>
+          <td>{{ item.date }}</td>
+
+          @if (typeList == "all") {
+          <td>
+            <p-tag
+              [value]="getType(item.type)"
+              [severity]="getSeverity(item.type)"
+            ></p-tag>
+          </td>
+          }
+
+          <td>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-eye"
+              class="p-button-rounded p-button mr-2"
+              (click)="viewProduct(item)"
+              [pTooltip]="view"
+              tooltipPosition="bottom"
+            ></button>
+            <ng-template #view>
+              <span class="tooltip">Visualizza</span>
+            </ng-template>
+             @if (userSession?.usertype == "SUPER" || !item.isChecked &&
+            userSession?.usertype == "ADMIN" ) {
+            <button
+              pButton
+              pRipple
+              icon="pi pi-check"
+              class="p-button-rounded p-button-warning"
+              (click)="validate(item)"
+              [pTooltip]="valida"
+              tooltipPosition="bottom"
+            ></button>
+            <ng-template #valida>
+              <span class="tooltip">Valida</span>
+            </ng-template>
+            } @if (userSession?.usertype == "SUPER" || userSession?.usertype ==
+            "ADMIN" || !item.isChecked && userSession?.usertype == "USER" ) {
+            <button
+              pButton
+              pRipple
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-success mr-2"
+              (click)="editProduct(item)"
+              [pTooltip]="edit"
+              tooltipPosition="bottom"
+            ></button>
+            <ng-template #edit>
+              <span class="tooltip">Modifica</span>
+            </ng-template>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger"
+              (click)="deleteProduct(item)"
+              [pTooltip]="delete"
+              tooltipPosition="bottom"
+            ></button>
+            <ng-template #delete>
+              <span class="tooltip">Elimina</span>
+            </ng-template>
+            }
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    }@else {
+    <app-empty></app-empty>
+    }
+  </div>
+  <p-dialog
+    [(visible)]="productDialog"
+    [style]="{ width: '600px', 'min-height': '450px' }"
+    [header]="this.mode == 'insert' ? 'Inserisci Test' : 'Modifica Test' || this.mode=='view' ? 'Referto Completo' : ''"
+    [modal]="true"
+    styleClass="p-fluid"
+    (onHide)="onHideDialog()"
+  >
+    <ng-template pTemplate="content">
+      @if (this.mode == "insert" || this.mode == "update") {
+      <app-full-test-form
+        (closeModal)="hideDialog()"
+        [mode]="this.mode"
+        [testUpdate]="testUpdate"
+      ></app-full-test-form>
+      }@else if (this.mode== "view") {
+      <app-view-test [test]="viewTest"></app-view-test>
+      }
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>

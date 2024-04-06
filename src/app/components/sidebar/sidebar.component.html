@@ -1,0 +1,77 @@
+<div class="wrap">
+  <div class="contain-img">
+    <img
+      src="../../../assets/img/healthcheck-logo-zip-file/healthcheck-favicon-color.png"
+      alt=""
+    />
+  </div>
+
+  <ul>
+    <li>
+      <h4>Home</h4>
+      <a routerLink="home" routerLinkActive="active-link"
+        ><span class="material-symbols-outlined"> health_metrics </span
+        >Dashboard</a
+      >
+    </li>
+    <li>
+      <h4>Utenti</h4>
+    </li>
+    @if (userSession?.usertype == "SUPER") {
+    <li>
+      <a routerLink="users" routerLinkActive="active-link"
+        ><span class="material-symbols-outlined"> group </span>Tutti</a
+      >
+    </li>
+    <li>
+      <a routerLink="doctors" routerLinkActive="active-link"
+        ><span class="material-symbols-outlined"> stethoscope </span>Dottori</a
+      >
+    </li>
+    <li>
+      <a routerLink="patient" routerLinkActive="active-link"
+        ><span class="material-symbols-outlined"> personal_injury </span>Pazienti</a
+      >
+    </li>
+    }@else if (userSession?.usertype == "ADMIN") {
+    <li>
+      <a routerLink="patient" routerLinkActive="active-link">
+        <span class="material-symbols-outlined"> personal_injury </span>Pazienti
+      </a>
+    </li>
+    }@else {
+    <li>
+      <a routerLink="doctors" routerLinkActive="active-link"
+        ><span class="material-symbols-outlined"> stethoscope </span>Dottori</a
+      >
+    </li>
+    }
+
+    <li>
+      <h4>Referti</h4>
+    </li>
+    <li>
+      <a routerLink="tests" routerLinkActive="active-link"
+        ><span class="material-symbols-outlined"> group </span>Tutti</a
+      >
+    </li>
+    <li>
+      <a routerLink="BLOODTEST" routerLinkActive="active-link"
+        ><span class="material-symbols-outlined"> bloodtype </span>Sangue</a
+      >
+    </li>
+    <li>
+      <a routerLink="URINETEST" routerLinkActive="active-link"
+        ><span class="material-symbols-outlined"> labs </span>Urine</a
+      >
+    </li>
+    <li>
+      <h4>Account</h4>
+    </li>
+    <li>
+      <a routerLink="Profile" routerLinkActive="active-link"
+        ><span class="material-symbols-outlined"> person </span>Profilo</a
+      >
+    </li>
+  </ul>
+</div>

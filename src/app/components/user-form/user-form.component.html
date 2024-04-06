@@ -1,0 +1,67 @@
+<form #userForm="ngForm">
+  <h3>Credenziali</h3>
+  <div class="foto">
+    <p-fileUpload mode="basic" name="image" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*"  [auto]="true" chooseLabel="Foto" (onUpload)="onUpload($event)"></p-fileUpload>
+</div>
+  <div class=" contain-input">
+    <label for="email">Email</label>
+    <input
+      pInputText
+      id="email"
+      name="email"
+      pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
+      [(ngModel)]="model.email"
+      [required]="true"
+      #emailInput="ngModel"
+    />
+    @if (emailInput.hasError('pattern')) {
+    <p class="err">Email non valida</p>
+    }@else if (emailInput.hasError('required')) {
+    <p class="req"><strong>Obbligatorio</strong></p>
+    }
+  </div>
+  <div class="flex flex-column gap-2 contain-input">
+    <label for="password">Password</label>
+    <p-password
+      name="password"
+      id="password"
+      [(ngModel)]="model.password"
+      [required]="true"
+      #passwordInput="ngModel"
+      [toggleMask]="true"
+      pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{8,}$"
+    ></p-password>
+    @if (passwordInput.hasError('pattern')) {
+    <p class="err">
+      Minimo 8 caratteri, almeno un numero, una lettera maiuscola e un carattere
+      speciale
+    </p>
+    }@else if (passwordInput.hasError('required')) {
+    <p class="req"><strong>Obbligatorio</strong></p>
+    }
+  </div>
+  @if (userSession?.usertype == "SUPER") {
+  <div class="card flex justify-content-center">
+    <label for="usertype">Tipo</label>
+    <p-dropdown
+      [options]="types"
+      [(ngModel)]="model.usertype"
+      optionValue="code"
+      optionLabel="name"
+      name="usertype"
+      id="usertype"
+      [showClear]="true"
+      placeholder="Tipo"
+      [required]="true"
+      #usertypeInput="ngModel"
+    ></p-dropdown>
+    @if (usertypeInput.hasError('required')) {
+    <p class="req"><strong>Obbligatorio</strong></p>
+    }
+  </div>
+  } 
+  @if (errorMessage) {
+  <p class="err">{{ errorMessage }}</p>
+  }
+  
+</form>

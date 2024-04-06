@@ -1,0 +1,76 @@
+@if (test.type == "BLOODTEST") {
+<mat-card class="example-card">
+  <mat-card-header>
+    <h2>Analisi del Sangue</h2>
+  </mat-card-header>
+  <mat-card-content>
+    <p><span>Globuli Bianchi:</span> {{ bloodTest.whiteBloodCell }}</p>
+    <p><span>Globuli Rossi:</span> {{ bloodTest.redBloodCell }}</p>
+    <p><span>Emoglobina:</span> {{ bloodTest.hemoglobin }}</p>
+    <p><span>Piastrine:</span> {{ bloodTest.platelets }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    @if (userSession!.usertype != "USER" || (userSession!.usertype == "USER" &&
+    test.isChecked) ) {
+    <h3>Scarica PDF</h3>
+    <a
+      [href]="
+        'http://localhost:8080/pdf/viewPdf?cf=' +
+        test.patient +
+        '&id=' +
+        test.id
+      "
+      download="documento.pdf"
+      pButton
+      pRipple
+      icon="pi pi-download"
+      class="p-button-rounded p-button mr-2"
+      target="_blank"
+      [pTooltip]="tooltipContent"
+      tooltipPosition="right"
+    ></a>
+    <ng-template #tooltipContent>
+      <span class="tooltip">PDF</span>
+    </ng-template>
+    }
+  </mat-card-actions>
+</mat-card>
+}@else if (test.type == "URINETEST") {
+
+<mat-card class="example-card">
+  <mat-card-header>
+    <h2>Analisi delle Urine</h2>
+  </mat-card-header>
+  <mat-card-content>
+    <p><span>Colore:</span> {{ urineTest.color }}</p>
+    <p><span>Ph:</span> {{ urineTest.ph }}</p>
+    <p><span>Proteine:</span>  {{ urineTest.protein }}</p>
+    <p><span>Emoglobina:</span> {{ urineTest.hemoglobine }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    @if (userSession!.usertype != "USER" || (userSession!.usertype == "USER" &&
+    test.isChecked) ) {
+    <h3>Scarica PDF</h3>
+    <a
+      [href]="
+        'http://localhost:8080/pdf/viewPdf?cf=' +
+        test.patient +
+        '&id=' +
+        test.id
+      "
+      download="documento.pdf"
+      pButton
+      pRipple
+      icon="pi pi-download"
+      class="p-button-rounded p-button mr-2"
+      target="_blank"
+      [pTooltip]="tooltipContent"
+      tooltipPosition="right"
+    ></a>
+    <ng-template #tooltipContent>
+      <span class="tooltip">PDF</span>
+    </ng-template>
+    }
+  </mat-card-actions>
+</mat-card>
+}

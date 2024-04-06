@@ -1,0 +1,34 @@
+<div class="container">
+@for (card of cards; track $index) {
+  <div class="card">
+    <div class="content">
+      <div class="back">
+        <div class="back-content">
+          <img [src]="card.image" [alt]="card.nome" />
+          <strong>{{card.nome}}</strong>
+          <p-rating [(ngModel)]="card.rating" [readonly]="true" [cancel]="false"></p-rating>
+        </div>
+      </div>
+      <div class="front">
+        <div class="img">
+          <img [src]="card.image" [alt]="card.nome" />
+        </div>
+        <div class="front-content">
+          <small class="badge"></small>
+          <div class="description">
+            <div class="title">
+              <p class="title">
+                <strong>{{card.nome}}</strong>
+              </p>
+            </div>
+            <p class="card-footer">
+              {{card.descrizione}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+  
+</div>

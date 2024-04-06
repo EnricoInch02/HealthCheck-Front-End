@@ -1,0 +1,12 @@
+<app-navbar-dashboard (openSidebar)="drawer.toggle()" ></app-navbar-dashboard>
+<mat-drawer-container class="container" autosize>
+  
+
+  <mat-drawer #drawer class="sidenav" mode="side">
+    <app-sidebar></app-sidebar>
+  </mat-drawer>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

@@ -1,0 +1,75 @@
+<div class="form">
+  <h2 class="title-main">Accedi</h2>
+  <form #loginForm="ngForm" (ngSubmit)="login()">
+    <mat-form-field class="example-full-width">
+      <mat-label>Email</mat-label>
+      <input
+        type="email"
+        matInput
+        name="email"
+        placeholder="Inserisci la tua mail.."
+        required
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        [(ngModel)]="model.email"
+        #emailInput="ngModel"
+     
+      />
+      @if (emailInput.hasError('pattern')) {
+      <mat-error> Email non valida </mat-error>
+      }@else if (emailInput.hasError('required')) {
+      <mat-error> Email <strong>obbligatoria</strong> </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        name="password"
+        [(ngModel)]="model.password"
+        required
+        #passwordInput="ngModel"
+        pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{8,}$"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+      @if (passwordInput.hasError('pattern')) {
+      <mat-error
+        >Minimo 8 caratteri, almeno un numero, una lettera maiuscola e un
+        carattere speciale</mat-error
+      >
+      }@else if (passwordInput.hasError('required')) {
+      <mat-error> Password <strong>obbligatoria</strong> </mat-error>
+      }
+      
+    </mat-form-field>
+    @if (emailInput.valid) {
+        <span class="reset"><a routerLink="/landing/reset-password" (click)="resetPassword()"
+          >Password dimenticata?</a
+        ></span>
+      }
+    @if (errorMessage) {
+    <mat-error class="err">{{ errorMessage }}</mat-error>
+    }
+    <button
+      class="submit"
+      mat-raised-button
+      type="submit"
+      [disabled]="loginForm.invalid"
+    >
+      Accedi
+    </button>
+    <span
+      >Non hai un account?<a routerLink="/landing/register">Registrati</a></span
+    >
+   
+  </form>
+</div>

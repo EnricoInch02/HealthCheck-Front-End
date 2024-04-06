@@ -1,0 +1,58 @@
+
+<div class="wrap">
+ <div class="split-2">
+    <div class="chart">
+      <app-chart-line></app-chart-line>
+    </div>
+    <div class="chart">
+      <app-chart-pie></app-chart-pie>
+    </div>
+  </div>
+  <div class="split-4">
+    <a routerLink="/dashboard/tests">
+      <div class="card">
+        <img src="../../../assets/img/icons8-treatment-80.png" alt="test" />
+        <div class="card__content">
+          <p class="card__title">Referti</p>
+          <p class="card__description">
+            {{ test.length + 27 }}
+          </p>
+        </div>
+      </div>
+    </a>
+    <a routerLink="/dashboard/BLOODTEST">
+      <div class="card">
+        <img
+          src="../../../assets/img/icons8-blood-donor-male-96.png"
+          alt="bloodTest"
+        />
+        <div class="card__content">
+          <p class="card__title">Analisi del Sangue</p>
+          <p class="card__description">
+            {{ bloodTest.length }}
+          </p>
+        </div>
+      </div>
+    </a>
+    <a routerLink="/dashboard/URINETEST">
+      <div class="card">
+        <img src="../../../assets/img/urine.png" alt="urinetest" />
+        <div class="card__content">
+          <p class="card__title">Analisi delle Urine</p>
+          <p class="card__description">
+            {{ urineTest.length }}
+          </p>
+        </div>
+      </div>
+    </a>
+    <a routerLink="#">
+      <div class="card">
+        <img src="../../../assets/img/icons8-ecg-80.png" alt="ecg" />
+        <div class="card__content">
+          <p class="card__title">ECG</p>
+          <p class="card__description">27</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

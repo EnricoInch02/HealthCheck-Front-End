@@ -1,0 +1,68 @@
+<form action="" #urineForm="ngForm">
+    <h3>Analisi delle Urine</h3>
+    <div class="split-2">
+      <div class="contain-input">
+        <label for="color">Colore</label>
+        <p-inputNumber
+          [(ngModel)]="model.color"
+          mode="decimal"
+          id="color"
+          name="color"
+          [required]="true"
+          #colorInput="ngModel"
+        >
+        </p-inputNumber>
+        @if (colorInput.hasError('required')) {
+        <p class="req"><strong>Obbligatorio</strong></p>
+        }
+      </div>
+      <div class="contain-input input-split">
+          <label for="protein">Proteine</label>
+          <p-inputNumber
+            [(ngModel)]="model.protein"
+            mode="decimal"
+            id="protein"
+            name="protein"
+            [required]="true"
+            #proteinInput="ngModel"
+          >
+          </p-inputNumber>
+          @if (proteinInput.hasError('required')) {
+          <p class="req"><strong>Obbligatorio</strong></p>
+          }
+      </div>
+    </div>
+    <div class="split-2">
+      <div class="contain-input">
+        <label for="ph">Ph</label>
+        <p-inputNumber
+          [(ngModel)]="model.ph"
+          mode="decimal"
+          id="ph"
+          name="ph"
+          [required]="true"
+          #phInput="ngModel"
+        >
+        </p-inputNumber>
+        @if (phInput.hasError('required')) {
+        <p class="req"><strong>Obbligatorio</strong></p>
+        }
+      </div>
+      <div class="contain-input input-split">
+          <label for="hemoglobin">Emoglobina</label>
+          <p-inputNumber
+            [(ngModel)]="model.hemoglobine"
+            mode="decimal"
+            id="hemoglobin"
+            name="hemoglobin"
+            [required]="true"
+            #hemoglobinInput="ngModel"
+          >
+          </p-inputNumber>
+          @if (hemoglobinInput.hasError('required')) {
+          <p class="req"><strong>Obbligatorio</strong></p>
+          }
+      </div>
+    </div>
+  </form>
+  

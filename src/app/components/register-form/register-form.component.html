@@ -1,0 +1,259 @@
+
+<div class="wrap">
+  <div class="modal">
+    <h2 class="title-main">Registrati</h2>
+    <div class="separator">
+      <hr class="line" />
+      <p>Inserisci i tuoi dati</p>
+      <hr class="line" />
+    </div>
+
+    <mat-stepper #stepper linear >
+      <mat-step [stepControl]="formInsertUser" errorMessage="Obbligatorio">
+        <form [formGroup]="formInsertUser" >
+          <ng-template matStepLabel>Utente</ng-template>
+          <div class="form">
+            <div class="input_container">
+              <label for="email" class="input_label">Email</label>
+              <input
+                id="email"
+                class="input_field"
+                type="text"
+                placeholder="Email..."
+                formControlName="email"
+                required
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
+              />
+            </div>
+            @if(formInsertUser.controls['email'].touched && formInsertUser.controls['email'].hasError("pattern")){
+              <p class="error">Inserire una mail valida</p>
+            }@else if (formInsertUser.controls['email'].touched &&  formInsertUser.controls['email'].hasError("required")) {
+              <p class="error">Email obbigatoria</p>
+            }
+            <div class="input_container">
+              <label for="password" class="input_label">Password</label>
+              <input
+                id="password"
+                class="input_field"
+                [type]="hide ? 'password' : 'text'"
+                formControlName="password"
+                required
+                placeholder="Password..."
+                pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{8,}$"
+              />
+              @if(formInsertUser.controls['password'].touched && formInsertUser.controls['password'].hasError("pattern")){
+                <p class="error">Minimo 8 caratteri, almeno un numero, una lettera maiuscola e un carattere speciale</p>
+              }@else if (formInsertUser.controls['password'].touched &&  formInsertUser.controls['password'].hasError("required")) {
+                <p class="error">Password obbigatoria</p>
+              }
+            </div>
+          </div>
+          <div class="btn">
+             <button class="purchase--btn" matStepperNext [disabled]="formInsertUser.invalid">Avanti</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="formRegistry" errorMessage="Obbligatorio">
+        <form [formGroup]="formRegistry">
+          <ng-template matStepLabel>Anagrafica</ng-template>
+          <div class="input_container">
+            <label for="name" class="input_label">Nome</label>
+            <input
+              id="name"
+              class="input_field"
+              type="text"
+              placeholder="Nome..."
+              formControlName="name"
+              required
+            />
+            @if ( formRegistry.controls['name'].touched && formRegistry.controls['name'].hasError("required")) {
+              <p class="error">Nome obbigatorio</p>
+            }
+          </div>
+
+          <div class="input_container">
+            <div class="split">
+              <div class="input_container">
+                <label for="surname" class="input_label">Cognome</label>
+                <input
+                  id="surname"
+                  class="input_field"
+                  type="text"
+                  placeholder="Cognome..."
+                  formControlName="surname"
+                  required
+                />
+                @if ( formRegistry.controls['surname'].touched && formRegistry.controls['surname'].hasError("required")) {
+                  <p class="error">Cognome obbigatorio</p>
+                }
+              </div>
+              <div class="input_container">
+                <label for="gender" class="input_label">Genere</label>
+                <select
+                  id="gender"
+                  class="input_field"
+                  formControlName="gender"
+                  required
+                >
+                  <option value="">Scegli..</option>
+                  @for (gender of genders; track gender) {
+                  <option [value]="gender.value">{{ gender.viewValue }}</option>
+                  }
+                </select>
+                @if ( formRegistry.controls['gender'].touched && formRegistry.controls['gender'].hasError("required")) {
+                  <p class="error">Genere obbigatorio</p>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="input_container">
+            <div class="split">
+              <div class="input_container">
+                <label for="birthPlace" class="input_label"
+                  >Luogo di Nascita</label
+                >
+                <input
+                  id="birthPlace"
+                  class="input_field"
+                  type="text"
+                  placeholder="Luogo di nascita..."
+                  formControlName="birthPlace"
+                  required
+                />
+                @if ( formRegistry.controls['birthPlace'].touched && formRegistry.controls['birthPlace'].hasError("required")) {
+                  <p class="error">Luogo di nascita obbigatorio</p>
+                }
+              </div>
+              <div class="input_container">
+                <label for="birthDate" class="input_label"
+                  >Data di Nascita</label
+                >
+                <input
+                  id="birthDate"
+                  class="input_field"
+                  type="date"
+                  placeholder="Data di nascita..."
+                  formControlName="birthDate"
+                  required
+                />
+                @if ( formRegistry.controls['birthDate'].touched && formRegistry.controls['birthDate'].hasError("required")) {
+                  <p class="error">Data di nascita obbigatoria</p>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="input_container">
+            <div class="split">
+              <div class="input_container">
+                <label for="city" class="input_label">Città</label>
+                <input
+                  id="city"
+                  class="input_field"
+                  type="text"
+                  placeholder="Città..."
+                  formControlName="city"
+                  required
+                />
+                @if ( formRegistry.controls['city'].touched && formRegistry.controls['city'].hasError("required")) {
+                  <p class="error">Città obbigatoria</p>
+                }
+              </div>
+              <div class="input_container">
+                <label for="nationality" class="input_label">Nazionalità</label>
+                <select
+                  id="nationality"
+                  class="input_field"
+                  formControlName="nationality"
+                  required
+                >
+                  <option value="">Scegli..</option>
+                  @for (nationality of nationalities; track nationality) {
+                  <option [value]="nationality.value">
+                    {{ nationality.viewValue }}
+                  </option>
+                  }
+                </select>
+                @if ( formRegistry.controls['nationality'].touched && formRegistry.controls['nationality'].hasError("required")) {
+                  <p class="error">Nazionalità obbigatoria</p>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="input_container">
+            <label for="address" class="input_label">Indirizzo</label>
+            <input
+              id="address"
+              class="input_field"
+              type="text"
+              placeholder="Indirizzo..."
+              formControlName="address"
+              required
+            />
+            @if ( formRegistry.controls['address'].touched && formRegistry.controls['address'].hasError("required")) {
+              <p class="error">Indirizzo obbigatorio</p>
+            }
+          </div>
+
+          <div class="input_container">
+            <div class="split">
+              <div class="input_container">
+                <label for="cf" class="input_label">Codice Fiscale</label>
+                <input
+                  id="cf"
+                  class="input_field"
+                  type="text"
+                  placeholder="Codice Fiscale..."
+                  formControlName="cf"
+                  required
+                  pattern="^.{16}$"
+                />
+                @if ( formRegistry.controls['cf'].touched && formRegistry.controls['cf'].hasError("required")) {
+                  <p class="error">Codice Fiscale obbigatorio</p>
+                }@else if(formRegistry.controls['cf'].touched && formRegistry.controls['cf'].hasError("pattern")){
+                  <p class="error">Deve contenere 16 caratteri</p>
+                }
+              </div>
+              <div class="input_container">
+                <label for="bg" class="input_label">Gruppo Sanguigno</label>
+                <select
+                  id="bg"
+                  class="input_field"
+                  formControlName="bg"
+                  required
+                >
+                  <option value="">Scegli..</option>
+                  @for (bg of bloodGroups; track bg) {
+                  <option [value]="bg.value">{{ bg.viewValue }}</option>
+                  }
+                </select>
+                @if ( formRegistry.controls['bg'].touched && formRegistry.controls['bg'].hasError("required")) {
+                  <p class="error">Gruppo Sanguigno obbigatorio</p>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="btn">
+            <button matStepperPrevious class="purchase--btn back">
+              Indietro
+            </button>
+            <button
+              matStepperNext
+              class="purchase--btn"
+              [disabled]="formRegistry.invalid"
+              (click)="onSubmit()"
+            >
+              Conferma
+            </button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>
+
+
+

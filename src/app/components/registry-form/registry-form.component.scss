@@ -1,0 +1,21 @@
+form{
+    .split-2{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 1em;
+    }
+    .split-3{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 1em;
+    }
+    .split-2-5{
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1em;
+    }
+    .contain-input{
+        margin-bottom: .5em;
+    }
+    
+}

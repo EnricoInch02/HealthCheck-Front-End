@@ -1,0 +1,36 @@
+<mat-toolbar>
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    (click)="toggleSidebar()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <div class="center">
+    <img
+      src="../../../assets/img/healthcheck-logo-zip-file/svg/logo-no-background.svg"
+      alt=""
+    />
+  </div>
+  <span class="example-spacer"></span>
+  <div class="end">
+    <div class="contain-user">
+        <p>{{userRegistry.name | titlecase}} {{userRegistry.surname | titlecase}}</p>
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+        >
+          <img src="http://localhost:8080/user/viewProPic?id={{userSession!.id}}" alt="" />
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item  (click)="account()">
+          <span>Account</span>
+        </button>
+        <button mat-menu-item (click)="loginService.logOut()">
+          <span>Esci</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>

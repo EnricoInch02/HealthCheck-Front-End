@@ -1,0 +1,19 @@
+.example-card {
+  margin-top: 1em;
+  mat-card-content {
+    p {
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+
+  mat-card-actions {
+    h3 {
+      margin-right: 1em;
+    }
+    a{
+        text-decoration: none;
+    }
+  }
+}

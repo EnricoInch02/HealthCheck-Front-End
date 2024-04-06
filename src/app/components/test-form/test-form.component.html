@@ -1,0 +1,88 @@
+<form action="" #testForm="ngForm">
+  <h3>Test</h3>
+  <div class="split-2">
+    @if (userSession?.usertype == "SUPER" ||userSession?.usertype == "USER"  ) {
+    <div class="card flex justify-content-center">
+      <label for="doctor">Dottore</label>
+      <p-dropdown
+        [options]="allDoctor"
+        [(ngModel)]="model.doctor"
+        optionValue="id"
+        optionLabel="surname"
+        name="doctor"
+        id="doctor"
+        [showClear]="true"
+        placeholder="Scegli.."
+        [required]="true"
+        #doctorInput="ngModel"
+        [editable]="true"
+      ></p-dropdown>
+      @if (doctorInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+  }
+    @if (userSession?.usertype == "SUPER" ||userSession?.usertype == "ADMIN"  ) {
+      <div class="card flex justify-content-center">
+      <label for="patient">Paziente</label>
+      <p-dropdown
+        [options]="allUser"
+        [(ngModel)]="model.patient"
+        optionValue="id"
+        optionLabel="cf"
+        name="patient"
+        id="patient"
+        [showClear]="true"
+        placeholder="Scegli.."
+        [required]="true"
+        #patientInput="ngModel"
+        [editable]="true"
+      ></p-dropdown>
+      @if (patientInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+    }
+    
+  </div>
+  <div class="split-2">
+    <div class="contain-input">
+        <label for="date">Data</label>
+        <p-calendar
+          [(ngModel)]="model.date"
+          (ngModelChange)="handleDateSelection($event)"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          id="date"
+          name="date"
+          [required]="true"
+          #dateInput="ngModel"
+        ></p-calendar>
+        @if (dateInput.hasError('required')) {
+        <p class="req"><strong>Obbligatorio</strong></p>
+        }
+      </div>
+    <div class="card flex justify-content-center">
+      <label for="type">Analisi</label>
+      <p-dropdown
+        [options]="types"
+        [(ngModel)]="model.type"
+        optionValue="value"
+        optionLabel="viewValue"
+        name="type"
+        id="type"
+        [showClear]="true"
+        placeholder="Scegli.."
+        [required]="true"
+        #typeInput="ngModel"
+        (ngModelChange)="changeType(model.type)"
+      ></p-dropdown>
+      @if (typeInput.hasError('required')) {
+      <p class="req"><strong>Obbligatorio</strong></p>
+      }
+    </div>
+  </div>
+  @if(!model.type){
+    <h3>In attesa del tipo di analisi...</h3>
+  }
+</form>
